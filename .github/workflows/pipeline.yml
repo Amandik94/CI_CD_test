@@ -5,22 +5,28 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    
-    # Теперь steps находятся внутри job 'test'
-    steps:
-      - name: Клонируем репозиторий
-        uses: actions/checkout@v4
+    build:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Клонируем репозиторий
+            uses: actions/checkout@v4
 
-      - name: Docker поднимаем
-        run: docker build -t myapp .
-        
-      - name: Тесты внутри контейнера
-        run: docker run myapp pytest
+          - name: Docker поднимаем
+            run: docker build -t myapp .
 
-      - name: CD процесс (Деплой)
-        run: |
-          # Учти, что папка ../staging живет только внутри этого раннера
-          mkdir -p ../staging
-          cp -r . ../staging/
+
+    test:
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+            - name: Клонируем репозиторий
+              uses: actions/checkout@v4
+            
+            - name: Тесты внутри контейнера
+              run: docker run --rm myapp pytest
+
+ #           - name: CD процесс (Деплой)
+ #             run: |
+                # Учти, что папка ../staging живет только внутри этого раннера
+ #               mkdir -p ../staging
+ #               cp -r . ../staging/
