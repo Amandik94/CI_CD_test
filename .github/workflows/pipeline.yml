@@ -28,8 +28,18 @@ jobs:
             - name: Тесты внутри контейнера
               run: docker run --rm myapp
 
- #           - name: CD процесс (Деплой)
- #             run: |
- #                Учти, что папка ../staging живет только внутри этого раннера
- #               mkdir -p ../staging
- #               cp -r . ../staging/
+    deploy:
+        runs-on: ubuntu-latest
+        needs: test
+        steps:
+            - name: Клонируем репозиторий
+              uses: actions/checkout@v4
+
+            - name: Docker поднимаем(Опять)
+              run: docker build -t myapp .
+
+            - name: CD процесс (Деплой)
+              run: |
+                Учти, что папка ../staging живет только внутри этого раннера
+                 mkdir -p ../staging
+                cp -r . ../staging/
