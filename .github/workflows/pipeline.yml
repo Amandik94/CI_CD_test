@@ -22,11 +22,14 @@ jobs:
             - name: Клонируем репозиторий
               uses: actions/checkout@v4
             
+            - name: Docker поднимаем(Опять)
+              run: docker build -t myapp .
+
             - name: Тесты внутри контейнера
               run: docker run --rm myapp
 
  #           - name: CD процесс (Деплой)
  #             run: |
-                # Учти, что папка ../staging живет только внутри этого раннера
+ #                Учти, что папка ../staging живет только внутри этого раннера
  #               mkdir -p ../staging
  #               cp -r . ../staging/
