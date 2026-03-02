@@ -40,6 +40,5 @@ jobs:
 
             - name: CD процесс (Деплой)
               run: |
-                Учти, что папка ../staging живет только внутри этого раннера
                  mkdir -p ../staging
-                cp -r . ../staging/
+                 cp -r . ../staging/
